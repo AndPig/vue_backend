@@ -70,39 +70,32 @@ export default {
       },
       login(){
           this.$refs.loginFormRef.validate(valid=>{
-            console.log(valid)
+            
             if(!valid){
                 return
             }else{
                 let data={
-                        userName:this.loginForm.username,
+                        username:this.loginForm.username,
                         password:this.loginForm.password
                 }
-            //  instance({
-            //      method:'post',
-            //      url:'http://localhost:8080/user/login',
-            //      data:{
-            //          userName:this.loginForm.username,
-            //          password:this.loginForm.password
-            //      }
-            //  })
             this.$http({
                  method:'post',
-                 url:'user/login',
-                 data:this.$qs.stringify(data)
+                 url:'login',
+                 data:data
         
              })
                .then(response=>{
-                   if(response.data.code==200){
+                   console.log(response)
+                   if(response.status==200){
                        //上面用到了箭头函数  this.$message才能被注入 为什么
                      this.$message({  
                            message:'登录成功',
                            type:'success'
                        })
-                       window.sessionStorage.setItem("token",response.data.token)
+                       window.sessionStorage.setItem("token",response.data.data.token)
                        this.$router.push("/home")
                    }
-                    console.log(response)
+                   
                })
                .catch(error=>{
                      this.$message({
